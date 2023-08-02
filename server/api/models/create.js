@@ -34,8 +34,20 @@ function newUserRoom(res, data) {
         });
 }
 
+function newMessage(data) {
+    let date = new Date();
+    date = date.toISOString().slice(0, 19).replace('T', ' ');
+    data['datesent'] = date;
+    knex('message')
+        .insert(data)
+        .then(() => {
+            console.log('saved!')
+        });
+}
+
 module.exports = {
     newUser,
     newRoom,
     newUserRoom,
+    newMessage,
 }

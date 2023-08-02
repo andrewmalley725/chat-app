@@ -1,3 +1,6 @@
+const inserter = require('./api/models/create');
+const readers = require('./api/models/readers');
+
 function configureSocket(server) {
     const io = require('socket.io')(server, {
         cors: {
@@ -7,20 +10,22 @@ function configureSocket(server) {
     
     io.on('connection', (socket) => {
         console.log(`${socket.id} connected`);
+
+        // socket.on('join-room', room => {
+        //     console.log('joined ' + room);
+        //     socket.join(room);
+        // });
     
-        socket.on('message', (data) => {
-            console.log(data.room);
-            socket.to(data.room).emit('message', {
-                id: data.id,
-                data: data.data,
-                room: data.room
+        socket.on('message', async (data) => {
+            inserter.newMessage(data);
+            const user = await readers.getUserById(data.userid);
+            io.emit('message', {
+                content: data.content,
+                roomid: data.roomid,
+                username: user.username
             });
         });
     
-        socket.on('join-room', room => {
-            console.log('joined ' + room);
-            socket.join(room);
-        });
     });
 }
 

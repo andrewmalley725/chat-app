@@ -38,7 +38,28 @@ async function allUserRooms(id) {
     return rooms;
 }
 
-allUserRooms(1);
+async function getRoomById(id) {
+    const data = await knex.select().from('room').where('roomid', id);
+    return data[0];
+}
+
+async function getMessagesByRoomId(id) {
+    const data = [];
+    const messages = await knex.select().from('message').where('roomid', id);
+    for (let i of messages) {
+        const user = await getUserById(i.userid);
+        data.push({
+            id: i.messageid,
+            user: {
+                userid: user.userid,
+                username: user.username,
+            },
+            content: i.content,
+            datesent: i.datesent
+        })
+    }
+    return data;
+}
 
 module.exports = {
     getUserByUsername,
@@ -47,4 +68,5 @@ module.exports = {
     getAllRooms,
     allUserRooms,
     getRoomByName,
+    getMessagesByRoomId,
 }
