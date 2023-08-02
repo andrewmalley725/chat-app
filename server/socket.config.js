@@ -4,7 +4,7 @@ const readers = require('./api/models/readers');
 function configureSocket(server) {
     const io = require('socket.io')(server, {
         cors: {
-            origin: "http://localhost:3000"
+            origin: ["http://localhost:3000", "https://admin.socket.io/#/"]
         }
     });
     
@@ -17,15 +17,14 @@ function configureSocket(server) {
         // });
     
         socket.on('message', async (data) => {
-            inserter.newMessage(data);
+            const record = await inserter.newMessage(data);
             const user = await readers.getUserById(data.userid);
             io.emit('message', {
                 content: data.content,
-                roomid: data.roomid,
-                username: user.username
+                id: record[0],
+                user: user
             });
         });
-    
     });
 }
 

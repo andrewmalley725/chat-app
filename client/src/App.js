@@ -16,6 +16,12 @@ function App({ socket }) {
   }, [roomid, messages, socket]);
 
   useEffect(() => {
+    axios.get(`${api}/messages/${roomid}`).then(data => {
+      setMessages(data.data.messages);
+    });
+  }, [roomid]);
+
+  useEffect(() => {
     axios.get(`${api}/rooms`).then(data => {
       setRooms(data.data);
     })
@@ -67,7 +73,7 @@ function App({ socket }) {
         {
           messages.map((i,index) => {
             return(
-              <p key={index}>{`${i.username} says: ${i.content}`}</p>
+              <p key={index}>{`${i.user.username} says: ${i.content}`}</p>
             )
           })
         }
