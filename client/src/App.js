@@ -6,14 +6,22 @@ function App({ socket }) {
   const api = 'http://localhost:8000/api';
   const [rooms, setRooms] = useState([]);
   const [roomid, setRoomid] = useState(0);
+  const [roomName, setName] = useState('');
   const [msg, setMsg] = useState('');
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
     socket.on('message', data => {
-      setMessages([...messages, data]);
+      if (data.roomName === roomName) {
+        setMessages([...messages, data]);
+      }
     });
-  }, [roomid, messages, socket]);
+  }, [roomid, messages, socket, roomName]);
+
+  useEffect(() => {
+    if (roomName)
+      socket.emit('join-room', roomName)
+  }, [socket, roomName]);
 
   useEffect(() => {
     axios.get(`${api}/messages/${roomid}`).then(data => {
@@ -38,22 +46,26 @@ function App({ socket }) {
       roomid: parseInt(roomid),
       userid: 1 //replace
     }
-    socket.emit('message', data);
-    // setMessages([...messages, data]);
+    socket.emit('message', data, roomName);
   };
 
   const joinRoom = (e) => {
-    //socket.emit('join-room', e.target.value);
-    setRoomid(e.target.value);
+    if (roomName)
+      socket.emit('leave-room', roomName);
+    const selectedRoomId = parseInt(e.target.value);
+    const selectedRoom = rooms.find((room) => room.roomid === selectedRoomId);
+  
+    if (selectedRoom) {
+      setRoomid(selectedRoom.roomid);
+      setName(selectedRoom.room_name);
+    }
   };
-
-  console.log(messages);
 
   return (
     <div>
       Room: 
       <select onChange={joinRoom}>
-        <option>Selesct a room to join</option>
+        <option>Select a room to join</option>
         {
           rooms ?
           rooms.map(i => {
