@@ -3,11 +3,11 @@ const { db_password } = require('../../config/env');
 const knex = require('knex')({
     client: 'mysql',
     connection: {
-      host : '127.0.0.1',
+      host : 'sql9.freesqldatabase.com',
       port : 3306,
-      user : 'root',
+      user : 'sql9637396',
       password : db_password,
-      database : 'chat_app'
+      database : 'sql9637396'
     }
 });
 

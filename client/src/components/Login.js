@@ -3,7 +3,7 @@ import { useRef, useState } from "react";
 import axios from 'axios';
 
 export default function Login() {
-    const apiURL = 'http://localhost:8000/api';
+    const apiURL = 'api';
     const [msg, setMsg] = useState("");
     const userName = useRef("");
     const passWord = useRef("");

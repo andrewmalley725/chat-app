@@ -1,4 +1,4 @@
-const db_password = 'Andyman72599';
+const db_password = 'feMMS1jwBD';
 
 module.exports = {
     db_password

@@ -2,7 +2,7 @@ import { React, useEffect, useState } from 'react';
 import axios from 'axios';
 
 function Home({socket}) {
-    const api = 'http://localhost:8000/api';
+    const api = 'api';
     const [rooms, setRooms] = useState([]);
     const [roomid, setRoomid] = useState(0);
     const [roomName, setName] = useState('');

@@ -8,7 +8,7 @@ import { io } from 'socket.io-client';
 import './App.css';
 import Login from './components/Login';
 
-const socket = io('http://localhost:8000');
+const socket = io();
 
 const router = createBrowserRouter([
   {
