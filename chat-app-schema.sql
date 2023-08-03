@@ -38,4 +38,11 @@ create index roomUser on user_rooms(roomid);
 create index userMessage on message(userid);
 create index roomMessage on message(roomid);
 
+create view userRooms as
+select userroomid, p.userid, 
+r.roomid, username, room_name 
+from user_rooms as ur
+inner join person p on p.userid = ur.userid
+inner join room r on r.roomid = ur.roomid
+
 
