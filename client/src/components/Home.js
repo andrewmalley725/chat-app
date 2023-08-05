@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from 'react';
+import { React, useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 
 function Home({socket, api}) {
@@ -7,6 +7,17 @@ function Home({socket, api}) {
     const [roomName, setName] = useState('');
     const [msg, setMsg] = useState('');
     const [messages, setMessages] = useState([]);
+
+    const ref = useRef(null);
+
+    useEffect(() => {
+      if (messages.length) {
+        ref.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "end",
+        });
+      }
+    }, [messages.length]);
 
     useEffect(() => {
         socket.on('message', data => {
@@ -38,19 +49,21 @@ function Home({socket, api}) {
     };
 
 
-    const handleSubmit = () => {
+    const handleSubmit = (e) => {
+      e.preventDefault();
         const data = {
             content: msg,
             roomid: parseInt(roomid),
             userid: localStorage.getItem('userId')
         }
         socket.emit('message', data, roomName);
+        setMsg('');
     };
 
-    const joinRoom = (e) => {
+    const joinRoom = (room) => {
         if (roomName)
         socket.emit('leave-room', roomName);
-        const selectedRoomId = parseInt(e.target.value);
+        const selectedRoomId = parseInt(room);
         const selectedRoom = rooms.find((room) => room.roomid === selectedRoomId);
     
         if (selectedRoom) {
@@ -58,57 +71,65 @@ function Home({socket, api}) {
         setName(selectedRoom.room_name);
         }
     };
-
+    console.log(roomName)
     return (
-        <div className="container mt-4">
-        <div className="card">
-          <div className="card-body">
+      <div className="container mt-4">
+      <div className="card">
+        <div className="card-body">
+          <div className="rooms-sidebar">
+            {rooms && (
+              <ul className="list-group">
+                {rooms.map((room) => (
+                  <li
+                    key={room.roomid}
+                    className="list-group-item room-item"
+                    onClick={() => joinRoom(room.roomid)}
+                  >
+                    {room.room_name}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+          <div className="chat-box">
             <div className="messages">
-              { messages 
-                ? messages.map((message, index) => (
-                        <div key={index} className="message">
-                            <p className="message-content">{`${message.user.username} says: ${message.content}`}</p>
-                        </div>
-                    )) 
-                : null}
+              {messages.length > 0 ? (
+                messages.map((message, index) => (
+                  <div key={index} className="message">
+                    <p className="message-content">{`${message.user.username} says: ${message.content}`}</p>
+                  </div>
+                ))
+              ) : roomName === '' ? 
+              (
+                <p>Select a room</p>
+              ) : (
+                <p>Loading messages...</p>
+              )}
+              <div ref={ref}></div>
             </div>
-            <div className="room-select">
-              <label htmlFor="roomSelect">Room:</label>
-              <select
-                id="roomSelect"
-                className="form-select"
-                onChange={joinRoom}
-              >
-                <option value="">Select a room to join</option>
-                {rooms
-                  ? rooms.map((room) => (
-                      <option key={room.roomid} value={room.roomid}>
-                        {room.room_name}
-                      </option>
-                    ))
-                  : null}
-              </select>
-            </div>
-            <div>
-              <input
-                className="form-control message-input"
-                type="text"
-                onKeyUp={handleChange}
-                placeholder="Message"
-              />
-            </div>
-            <div>
-              <button
-                className="btn btn-primary mt-2"
-                type="submit"
-                onClick={handleSubmit}
-              >
-                Submit
-              </button>
+            
+            <div className="message-input-container">
+              <form onSubmit={handleSubmit}>
+                <input
+                  className="form-control message-input"
+                  type="text"
+                  onChange={handleChange}
+                  value={msg}
+                  placeholder="Message"
+                />
+                <button
+                  className="btn btn-primary mt-2"
+                  type="submit"
+                  disabled={roomName === '' ? true : false}
+                >
+                  Submit
+                </button>
+              </form>
             </div>
           </div>
         </div>
       </div>
+    </div>    
     );
 }
 
