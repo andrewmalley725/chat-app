@@ -2,7 +2,7 @@ const app = require('./app');
 
 const { configureSocket } = require('./socket.config')
 
-const PORT = 8000;
+const PORT = process.env.PORT || 8080;
 
 const server = require('http').Server(app);
 

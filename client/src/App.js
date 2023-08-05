@@ -8,16 +8,19 @@ import { io } from 'socket.io-client';
 import './App.css';
 import Login from './components/Login';
 
-const socket = io();
+const env = process.env.NODE_ENV;
+
+const socket = env === 'development' ? io(process.env.REACT_APP_SOCKET) : io();
+const api = env === 'development' ? process.env.REACT_APP_API_URL : 'api';
 
 const router = createBrowserRouter([
   {
       path: "/",
-      element: <Login />,
+      element: <Login api={api}/>,
   },
   {
       path: "/index",
-      element: <Home socket={socket}/>,
+      element: <Home socket={socket} api={api}/>,
   }
 ]);
 

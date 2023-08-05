@@ -22,3 +22,4 @@ CMD [ "npm", "start", "--prefix", "server" ]
 EXPOSE 8000
 
 # docker run -it -p 8000:8000 andrewmalley725/express-chat-app
+# docker build . --platform=linux/amd64 -t andrewmalley725/express-chat-app

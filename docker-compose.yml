@@ -1,0 +1,9 @@
+version: '3'
+services:
+  express-chat-app:
+    build: .
+    ports:
+      - "80:8000"
+    environment:
+      - PORT=8000
+      - PROD_PASSWORD=feMMS1jwBD

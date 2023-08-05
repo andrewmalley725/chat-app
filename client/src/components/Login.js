@@ -2,8 +2,7 @@ import React from "react";
 import { useRef, useState } from "react";
 import axios from 'axios';
 
-export default function Login() {
-    const apiURL = 'api';
+export default function Login({api}) {
     const [msg, setMsg] = useState("");
     const userName = useRef("");
     const passWord = useRef("");
@@ -17,7 +16,7 @@ export default function Login() {
             password: passWord.current
         }
 
-        axios.post(`${apiURL}/authenticate`, body).then((response) => {
+        axios.post(`${api}/authenticate`, body).then((response) => {
             console.log(response.data)
             if (response.data.status === "success")
             {
