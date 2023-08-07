@@ -19,7 +19,6 @@ export default function Login({ api }) {
         }
 
         axios.post(`${api}/authenticate`, body).then((response) => {
-            console.log(response.data)
             if (response.data.status === "success") {
                 localStorage.setItem("userId", response.data.record.userid);
                 localStorage.setItem("username", response.data.record.username);
@@ -60,6 +59,7 @@ export default function Login({ api }) {
                                 onChange={(e) => (passWord.current = e.target.value)}
                             />
                         </div>
+                        <a href='/newUser' className='new-user'>Create an account</a>
                         <button type="submit" className="login-button">
                             Login
                         </button>

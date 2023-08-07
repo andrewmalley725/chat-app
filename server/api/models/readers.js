@@ -61,6 +61,12 @@ async function getMessagesByRoomId(id) {
     return data;
 }
 
+async function getAllUsers(res) {
+    knex.select().from('person').then((response) => {
+        res.json(response);
+    });
+}
+
 module.exports = {
     getUserByUsername,
     getUserById,
@@ -69,4 +75,5 @@ module.exports = {
     allUserRooms,
     getRoomByName,
     getMessagesByRoomId,
+    getAllUsers,
 }

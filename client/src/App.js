@@ -7,6 +7,7 @@ import Home from './components/Home';
 import { io } from 'socket.io-client';
 import './App.css';
 import Login from './components/Login';
+import NewUser from './components/NewUser';
 
 const env = process.env.NODE_ENV;
 
@@ -21,7 +22,12 @@ const router = createBrowserRouter([
   {
       path: "/index",
       element: <Home socket={socket} api={api}/>,
-  }
+  },
+  {
+    path: "/newUser",
+    element: <NewUser api={api}/>,
+  },
+
 ]);
 
 function App() {

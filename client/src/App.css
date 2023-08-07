@@ -6,6 +6,7 @@ body {
   .container {
     max-width: 600px;
     margin: 0 auto;
+    height: 1000px
   }
   
   /* Card styles */
@@ -16,13 +17,20 @@ body {
   }
   
   .card-body {
-    padding: 20px;
+    display: flex;
+    flex-direction: row; /* Set the flex direction to row */
+    justify-content: space-between;
   }
   
-  /* Rooms sidebar styles */
   .rooms-sidebar {
-    width: 200px;
-    float: left;
+    flex-basis: 30%; /* Set the width of the sidebar */
+  }
+  
+  .chat-box {
+    flex-basis: 70%; /* Set the width of the chat box */
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto; /* Add vertical scrollbar if needed */
   }
   
   .list-group {
@@ -44,11 +52,6 @@ body {
   }
   
   /* Chat box styles */
-  .chat-box {
-    overflow: hidden;
-    margin-left: 210px;
-    height:500px;
-  }
   
   .messages {
     max-height: 400px;
@@ -65,8 +68,6 @@ body {
   
   /* Message input styles */
   .message-input-container {
-    display: flex;
-    margin-top: 10px;
   }
   
   .message-input {
@@ -75,6 +76,7 @@ body {
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 4px;
+
   }
   
   /* Button styles */
@@ -94,4 +96,60 @@ body {
   .btn-primary:hover {
     background-color: #0056b3;
   }
+
+  .new-room{
+    display: block;
+    text-decoration: none;
+    color: blue;
+    border-radius: 0;
+    padding: 10px 20px;
+    font-size: 16px;
+  }
+  .input{
+    display: flex;
+  }
+
+  /* ... (your existing styles) ... */
+
+/* Media query for smaller screens (e.g., mobile devices) */
+@media (max-width: 768px) {
+  .card-body {
+    flex-direction: column;
+  }
+
+  .sidebar-chat-container {
+    flex-direction: column;
+  }
+
+  .rooms-sidebar {
+    flex-basis: 100%;
+    margin-bottom: 0;
+    display: none; /* Hide sidebar on mobile */
+  }
+
+  .chat-box {
+    flex-basis: 100%;
+    margin-top: 15px;
+  }
+
+  /* Show sidebar when hamburger menu is clicked */
+  .hamburger-menu:checked + .sidebar-chat-container .rooms-sidebar {
+    display: block;
+  }
+
+  /* Style the hamburger menu */
+  .hamburger-icon {
+    display: none; /* Hide the checkbox input */
+  }
+
+  .hamburger-label {
+    display: block;
+    font-size: 24px;
+    margin-bottom: 10px;
+    text-align: right;
+    cursor: pointer;
+  }
+}
+
+  
   

@@ -42,7 +42,7 @@ function Home({socket, api}) {
         axios.get(`${api}/rooms`).then(data => {
         setRooms(data.data);
         })
-    }, []);
+    }, [roomid]);
 
     const handleChange = (e) => {
         setMsg(e.target.value);
@@ -62,14 +62,34 @@ function Home({socket, api}) {
 
     const joinRoom = (room) => {
         if (roomName)
-        socket.emit('leave-room', roomName);
+          socket.emit('leave-room', roomName);
+
         const selectedRoomId = parseInt(room);
         const selectedRoom = rooms.find((room) => room.roomid === selectedRoomId);
     
         if (selectedRoom) {
-        setRoomid(selectedRoom.roomid);
-        setName(selectedRoom.room_name);
+          setRoomid(selectedRoom.roomid);
+          setName(selectedRoom.room_name);
         }
+    };
+
+    const addRoom = (e) => {
+      e.preventDefault();
+
+      const newRoom = prompt('Enter new room name: ');
+
+      const body = {
+        name: newRoom
+      };
+
+      axios.post(`${api}/addRoom`, body).then((response) => {
+        if (roomName)
+          socket.emit('leave-room', roomName);
+
+        setRoomid(response.data.record.roomid);
+        setName(response.data.record.room_name);
+      });
+
     };
     console.log(roomName)
     return (
@@ -88,6 +108,9 @@ function Home({socket, api}) {
                     {room.room_name}
                   </li>
                 ))}
+                <li>
+                  <a href='#' onClick={addRoom} className='new-room'>Add new room</a>
+                </li>
               </ul>
             )}
           </div>
@@ -102,30 +125,44 @@ function Home({socket, api}) {
               ) : roomName === '' ? 
               (
                 <p>Select a room</p>
-              ) : (
+              ) : messages.length === 0 ?
+              (
+                <p>No Messages to display</p>
+              ) : 
+              (
                 <p>Loading messages...</p>
               )}
+              
               <div ref={ref}></div>
+              
             </div>
-            
+
+            <div className='input'>
             <div className="message-input-container">
-              <form onSubmit={handleSubmit}>
-                <input
-                  className="form-control message-input"
-                  type="text"
-                  onChange={handleChange}
-                  value={msg}
-                  placeholder="Message"
-                />
-                <button
-                  className="btn btn-primary mt-2"
-                  type="submit"
-                  disabled={roomName === '' ? true : false}
-                >
-                  Submit
-                </button>
-              </form>
+                <form onSubmit={handleSubmit}>
+                  <input
+                    className="form-control message-input"
+                    type="text"
+                    onChange={handleChange}
+                    value={msg}
+                    placeholder="Message"
+                  />
+                  <button
+                    className="btn btn-primary mt-2"
+                    type="submit"
+                    disabled={roomName === '' ? true : false}
+                  >
+                    Submit
+                  </button>
+                </form>
+              </div>
             </div>
+
+            
+
+            
+            
+            
           </div>
         </div>
       </div>

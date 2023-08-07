@@ -10,7 +10,8 @@ apiRouter.post('/authenticate', controller.userAuth);
 apiRouter.get('/rooms', controller.getRooms);
 apiRouter.post('/userRoom', controller.addUserRoom);
 apiRouter.get('/userRoom/:uid', controller.getUserRooms);
-apiRouter.get('/messages/:roomid', controller.getMessages)
+apiRouter.get('/messages/:roomid', controller.getMessages);
+apiRouter.get('/users', controller.getUsers);
 
 module.exports = apiRouter;
 

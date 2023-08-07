@@ -1,4 +1,4 @@
-const { getUserByUsername, getAllRooms, getUserById, getRoomById, allUserRooms, getMessagesByRoomId } = require('../models/readers');
+const { getUserByUsername, getAllRooms, getUserById, getRoomById, allUserRooms, getMessagesByRoomId, getAllUsers } = require('../models/readers');
 const { hashPass } = require('../functions/hash');
 const { newUser, newRoom, newUserRoom, newMessage } = require('../models/create');
 
@@ -73,6 +73,10 @@ async function getMessages(req, res) {
     });
 }
 
+function getUsers(req, res) {
+    getAllUsers(res);
+}
+
 module.exports = {
     addUser,
     addRoom,
@@ -81,4 +85,5 @@ module.exports = {
     getUserRooms,
     addUserRoom,
     getMessages,
+    getUsers,
 }
