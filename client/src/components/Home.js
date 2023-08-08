@@ -151,7 +151,7 @@ function Home({socket, api}) {
               
             </div>
 
-            <div>
+            <div className='dropdown-container'>
               <select className='rooms-dropdown' onChange={joinRoomMobile}>
                 <option disabled selected>Select a room</option>
                 {
@@ -161,7 +161,8 @@ function Home({socket, api}) {
                     );
                   })
                 }
-              </select>
+              </select>&nbsp;
+              <a href='#' onClick={addRoom}>Add new room</a>
             </div>
 
             <div className='input'>
