@@ -139,13 +139,13 @@ function Home({socket, api}) {
                 ))
               ) : roomName === '' ? 
               (
-                <p>Select a room</p>
+                <p className='filler'>Select a room</p>
               ) : messages.length === 0 ?
               (
                 <p>No Messages to display</p>
               ) : 
               (
-                <p>Loading messages...</p>
+                <p className='filler'>Loading messages...</p>
               )}
               
               <div ref={ref}></div>

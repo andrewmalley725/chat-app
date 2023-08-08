@@ -107,7 +107,9 @@ body {
   .dropdown-container {
     display: none;
   }
+
   
+
 @media (max-width: 768px) {
   .card-body {
     flex-direction: column;
@@ -145,6 +147,10 @@ body {
     cursor: pointer;
     position: relative;
     transition: border-color 0.3s ease; /* Add a smooth transition effect */
+  }
+
+  .filler {
+    display: none;
   }
 
 }
