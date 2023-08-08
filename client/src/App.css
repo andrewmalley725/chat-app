@@ -66,17 +66,12 @@ body {
     font-size: 16px;
   }
   
-  /* Message input styles */
-  .message-input-container {
-  }
-  
   .message-input {
     flex: 1;
     padding: 10px;
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 4px;
-
   }
   
   /* Button styles */
@@ -109,9 +104,10 @@ body {
     display: flex;
   }
 
-  /* ... (your existing styles) ... */
+  .rooms-dropdown {
+    display: none;
+  }
 
-/* Media query for smaller screens (e.g., mobile devices) */
 @media (max-width: 768px) {
   .card-body {
     flex-direction: column;
@@ -132,23 +128,18 @@ body {
     margin-top: 15px;
   }
 
-  /* Show sidebar when hamburger menu is clicked */
-  .hamburger-menu:checked + .sidebar-chat-container .rooms-sidebar {
+  .rooms-dropdown {
     display: block;
-  }
-
-  /* Style the hamburger menu */
-  .hamburger-icon {
-    display: none; /* Hide the checkbox input */
-  }
-
-  .hamburger-label {
-    display: block;
-    font-size: 24px;
-    margin-bottom: 10px;
-    text-align: right;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
     cursor: pointer;
+    position: relative;
+    transition: border-color 0.3s ease; /* Add a smooth transition effect */
   }
+
 }
 
   

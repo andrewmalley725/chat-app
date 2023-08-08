@@ -91,7 +91,20 @@ function Home({socket, api}) {
       });
 
     };
-    console.log(roomName)
+    
+    const joinRoomMobile = (e) => {
+      if (roomName)
+          socket.emit('leave-room', roomName);
+
+        const selectedRoomId = parseInt(e.target.value);
+        const selectedRoom = rooms.find((room) => room.roomid === selectedRoomId);
+    
+        if (selectedRoom) {
+          setRoomid(selectedRoom.roomid);
+          setName(selectedRoom.room_name);
+        }
+    };
+
     return (
       <div className="container mt-4">
       <div className="card">
@@ -115,6 +128,7 @@ function Home({socket, api}) {
             )}
           </div>
           <div className="chat-box">
+          
             <div className="messages">
               {messages.length > 0 ? (
                 messages.map((message, index) => (
@@ -137,6 +151,19 @@ function Home({socket, api}) {
               
             </div>
 
+            <div>
+              <select className='rooms-dropdown' onChange={joinRoomMobile}>
+                <option disabled selected>Select a room</option>
+                {
+                  rooms.map((room) => {
+                    return(
+                      <option key={room.roomid} value={room.roomid}>{room.room_name}</option>
+                    );
+                  })
+                }
+              </select>
+            </div>
+
             <div className='input'>
             <div className="message-input-container">
                 <form onSubmit={handleSubmit}>
@@ -157,12 +184,6 @@ function Home({socket, api}) {
                 </form>
               </div>
             </div>
-
-            
-
-            
-            
-            
           </div>
         </div>
       </div>
