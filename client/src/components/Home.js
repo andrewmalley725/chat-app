@@ -76,20 +76,21 @@ function Home({socket, api}) {
     const addRoom = (e) => {
       e.preventDefault();
 
-      const newRoom = prompt('Enter new room name: ');
+      let newRoom = prompt('Enter new room name: ');
 
-      const body = {
-        name: newRoom
-      };
-
-      axios.post(`${api}/addRoom`, body).then((response) => {
-        if (roomName)
-          socket.emit('leave-room', roomName);
-
-        setRoomid(response.data.record.roomid);
-        setName(response.data.record.room_name);
-      });
-
+      if (newRoom) {
+        const body = {
+          name: newRoom
+        };
+  
+        axios.post(`${api}/addRoom`, body).then((response) => {
+          if (roomName)
+            socket.emit('leave-room', roomName);
+  
+          setRoomid(response.data.record.roomid);
+          setName(response.data.record.room_name);
+        });
+      }
     };
     
     const joinRoomMobile = (e) => {
