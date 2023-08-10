@@ -14,11 +14,11 @@ const connections = {
   production: {
     client: 'mysql',
     connection: {
-      host : 'sql9.freesqldatabase.com',
+      host : 'chat-rds.ckyfklorvddd.us-east-1.rds.amazonaws.com',
       port : 3306,
-      user : 'sql9637396',
+      user : 'admin',
       password : process.env.PROD_PASSWORD,
-      database : 'sql9637396'
+      database : 'chat_app'
     }
   }
 }
