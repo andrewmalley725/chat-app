@@ -6,4 +6,4 @@ services:
       - "80:8000"
     environment:
       - PORT=8000
-      - PROD_PASSWORD=feMMS1jwBD
+      - PROD_PASSWORD=Queloque123
