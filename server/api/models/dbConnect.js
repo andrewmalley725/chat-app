@@ -1,4 +1,5 @@
 require('dotenv').config();
+require('@planetscale/database');
 
 const connections = {
   development: {
@@ -14,11 +15,12 @@ const connections = {
   production: {
     client: 'mysql',
     connection: {
-      host : 'chat-rds.ckyfklorvddd.us-east-1.rds.amazonaws.com',
+      host : process.env.PROD_URL,
       port : 3306,
-      user : 'admin',
+      user : process.env.PROD_USER,
       password : process.env.PROD_PASSWORD,
-      database : 'chat_app'
+      database : 'chat-app',
+      ssl: {"rejectUnauthorized":false}
     }
   }
 }
